@@ -9,26 +9,34 @@ namespace TrabalhandoComArquivos
         static void Main(string[] args)
         {
             string sourcePath = @"c:\temp\file1.txt"; // Sem o Arroba teria que colocar // no caminho
-            string targetPath = @"c:\temp\file2.txt";
+
+            // FileStream fs = null;
+            StreamReader sr = null;
 
             try
             {
-                FileInfo fileinfo = new FileInfo(sourcePath);
-                fileinfo.CopyTo(targetPath);
-                string[] linhas = File.ReadAllLines(sourcePath); // Le as linhas do arquivo
+                //fs = new FileStream(sourcePath, FileMode.Open); // Abri o arquivo
+                // sr = new StreamReader(fs);
 
-                foreach (string linha in linhas ) // Le as linhas do Vetor
+                sr = File.OpenText(sourcePath); // Tem a mesma função do FileStram 
+
+
+                while (!sr.EndOfStream)
                 {
-
+                    string linha = sr.ReadLine();
                     Console.WriteLine(linha);
                 }
-
 
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ocorreu um erro: ");
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                if (sr != null) sr.Close();
+
             }
 
         }
